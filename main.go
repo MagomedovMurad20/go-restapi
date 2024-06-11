@@ -21,6 +21,23 @@ var albums = []album{
 	{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Artist: "Sarah Vaughan", Price: 39.99},
 }
 
+// getAlbums returns all the albums as a JSON response.
 func getAlbums(c *gin.Context) {
+	// Return the albums with a status code of 200 (OK)
+	// format the JSON response using indentation for better readability.
 	c.IndentedJSON(http.StatusOK, albums)
+}
+
+// main initializes the Gin router and sets up the "/albums" route
+// with the getAlbums handler function.
+
+func main() {
+	// Initialize Gin router with default middleware.
+	router := gin.Default()
+
+	// Set up the "/albums" route with the getAlbums handler function.
+	// The getAlbums function returns all the albums as a JSON response.
+	router.GET("/albums", getAlbums)
+	// Run the server on the localhost at port 8080.
+	router.Run("localhost:8080")
 }
