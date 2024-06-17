@@ -23,7 +23,7 @@ var albums = []album{
 
 // handlers
 func getAlbums(c *gin.Context) {
-	c.JSON(http.StatusOK, albums)
+	c.IndentedJSON(http.StatusOK, albums)
 }
 func postAlbums(c *gin.Context) {
 	var newAlbum album
@@ -32,7 +32,7 @@ func postAlbums(c *gin.Context) {
 	}
 
 	albums = append(albums, newAlbum)
-	c.JSON(http.StatusCreated, newAlbum)
+	c.IndentedJSON(http.StatusCreated, newAlbum)
 
 }
 
@@ -41,12 +41,13 @@ func getAlbum(c *gin.Context) {
 
 	for _, a := range albums {
 		if a.ID == id {
-			c.JSON(http.StatusOK, a)
+			c.IndentedJSON(http.StatusOK, a)
 			return
 		}
-		c.JSON(http.StatusNotFound, gin.H{"message": "album not found"})
 
 	}
+	c.JSON(http.StatusNotFound, gin.H{"message": "album not found"})
+
 }
 func main() {
 	router := gin.Default()
