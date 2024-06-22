@@ -61,12 +61,28 @@ func deleteAlbum(c *gin.Context) {
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
 }
 
+func updateAlbum(c *gin.Context) {
+	id := c.Param("id")
+	for i, a := range albums {
+		if a.ID == id {
+			c.BindJSON(a)
+			mem := albums[:i+1]
+			albums = append(albums[:i], a)
+			albums = append(albums, mem...)
+			c.IndentedJSON(http.StatusOK, a)
+			return
+		}
+	}
+	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
+}
+
 // main
 func main() {
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbum)
 	router.POST("/albums/:id", deleteAlbum)
+	router.PUT("/albums/:id", updateAlbum)
 	router.POST("/albums", postAlbums)
 
 	router.Run("localhost:8080")
